@@ -215,7 +215,7 @@ class _Home_screenState extends State<Home_screen> {
                                               ),
                                               child: Obx(
                                                 () => Text(
-                                                  "₹  ${controller.totalExpense}",
+                                                  "₹   ${controller.totalExpense}",
                                                   style: TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 22,

@@ -17,6 +17,7 @@ class _DataScreenState extends State<DataScreen> {
   void initState() {
     super.initState();
     controller.readdata();
+    controller.readDb2();
   }
 
   @override
@@ -27,6 +28,7 @@ class _DataScreenState extends State<DataScreen> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
+            title: Text("Transactions"),
             backgroundColor: Colors.deepPurple,
             actions: [
               IconButton(onPressed: () {

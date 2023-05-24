@@ -47,6 +47,17 @@ class DbHelper {
     List<Map> l1 = await database!.rawQuery(query);
     return l1;
   }
+  Future<List<Map>> readDB2() async {
+    database = await checkDB();
+
+    print("================================read");
+
+    String query = "SELECT * FROM categry";
+    List<Map> l1 = await database!.rawQuery(query);
+
+    print(l1);
+    return l1;
+  }
 
   void insertData(
       {required category,

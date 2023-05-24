@@ -11,6 +11,12 @@ class Transcation_screen extends StatefulWidget {
 }
 
 class _Transcation_screenState extends State<Transcation_screen> {
+  TextEditingController txtaddc = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    controller.readDb2();
+  }
   String status = "0";
   income_exepence_Controller controller = Get.put(
     income_exepence_Controller(),
@@ -30,8 +36,68 @@ class _Transcation_screenState extends State<Transcation_screen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          actions: [],
-          backgroundColor: Colors.purpleAccent,
+          actions: [
+            InkWell(
+              onTap: () {
+                Get.defaultDialog(
+                  contentPadding: EdgeInsets.all(10),
+                  title: "Add Category",
+                  content: Column(
+                    children: [
+                      TextField(
+                        controller: txtaddc,
+                        decoration: InputDecoration(
+                          hintText: "Add category",
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black)),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 2,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              Get.back();
+                            },
+                            child: Text("Cancel"),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              DbHelper dbHelper = DbHelper();
+                              var catagory;
+                              dbHelper.insertcatagory(category: catagory);
+                              txtaddc.clear();
+
+                              // controller.itemList.add(dropDownItem(name: txtaddc.text));
+
+                              Get.back();
+                            },
+                            child: Text("add"),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
+              child: Container(
+                margin: EdgeInsets.all(5),
+                height: 10,
+                width: 30,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.white)),
+                alignment: Alignment.center,
+                child: Text("Add category"),
+              ),
+            ),
+          ],
+          backgroundColor: Colors.white,
           centerTitle: true,
           title: Text(
             "Transcations",
@@ -41,67 +107,78 @@ class _Transcation_screenState extends State<Transcation_screen> {
                 fontWeight: FontWeight.bold),
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: "catagory",
-                          hintStyle: TextStyle(color: Colors.purple.shade100),
-                          border: OutlineInputBorder(),
-                        ),
-                        controller: txtCategory,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        TextButton(onPressed: () {
-                          showModalBottomSheet(context: context, builder: (context) {
-                            return  Container(
-                              height: 300,
-                              color: Colors.purpleAccent.shade100,
-                              child: Column(
-                                children: [
-                                  Text("PICK CATEGORY",style: TextStyle(letterSpacing: 2),),
-                                ],
-                              ),
-                            );
-                          },);
-                        }, child:Text("Add"),),
-                        Icon(Icons.add),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20,),
-                TextField(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
                   decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.purpleAccent,width: 2),),
+                    hintText: "category",
+                    hintStyle: TextStyle(color: Colors.purple.shade100),
+                    border: OutlineInputBorder(),
+                  ),
+                  controller: txtCategory,
+                ),
+                // child: Obx(
+                //   () => DropdownButton(
+                //     isExpanded: true,
+                //     dropdownColor: Color(0xff1b1b1d),
+                //     value: controller.cateName.value,
+                //     items: controller.cateList
+                //         .map(
+                //           (e) => DropdownMenuItem(
+                //             value: "${e['category']}",
+                //             child: Text(
+                //               "  ${e['category']}",
+                //               style: TextStyle(color: Colors.white),
+                //             ),
+                //           ),
+                //         )
+                //         .toList(),
+                //     onChanged: (value) {
+                //       controller.cateName.value = value as String;
+                //
+                //       print(controller.cateName);
+                //     },
+                //   ),
+                // ),
+              ),
+              SizedBox(height: 5,),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.purpleAccent,width: 1),),
                     hintText: "Note",
                     hintStyle: TextStyle(color: Colors.purple.shade100),
                     border: OutlineInputBorder(),
                   ),
                   controller: txtNote,
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                TextField(
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
                   decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.purpleAccent,width: 2),),
                     hintText: "₹ Amount",
                     hintStyle: TextStyle(color: Colors.purple.shade100),
                     border: OutlineInputBorder(),
                   ),
                   controller: txtAmount,
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                TextField(
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
                   decoration: InputDecoration(
                     prefixIcon: InkWell(onTap:() {
                       showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(3000));
@@ -110,19 +187,25 @@ class _Transcation_screenState extends State<Transcation_screen> {
                   ),
                   controller: txtDate,
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                TextField(
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                   ),
                   controller: txtTime,
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
                   children: [
                     Text(
                       "Status",
@@ -167,14 +250,32 @@ class _Transcation_screenState extends State<Transcation_screen> {
                     ),
                   ],
                 ),
-                SizedBox(height: 20,),
-                ElevatedButton(onPressed: () {
-                    DbHelper dbhelper = DbHelper();
-                    dbhelper.insertData(category: txtCategory.text, notes: txtNote.text, status: status, amount: txtAmount.text, types: "-", date: txtDate.text, time: txtTime.text);
-                    Get.back();
-                }, child: Text("add"),style:ElevatedButton.styleFrom(backgroundColor: Colors.purple)),
-              ],
-            ),
+              ),
+             SizedBox(height: 150,),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+
+                children: [
+                  Container(
+                    width: 170,
+                    decoration: BoxDecoration(border: Border.all(color: Colors.black),color: Colors.deepPurple),
+                    child: TextButton(onPressed: () {
+
+                    }, child: Text("SAVE & ADD MORE",style:  TextStyle(color: Colors.white)),),
+                  ),
+                  SizedBox(width: 2,),
+                  Container(
+                    width: 170,
+                    decoration: BoxDecoration(border: Border.all(color: Colors.black),color: Colors.deepPurple),
+                    child: TextButton(onPressed: () {
+                      DbHelper dbhelper = DbHelper();
+                      dbhelper.insertData(category: txtCategory.text, notes: txtNote.text, status: status, amount: txtAmount.text, types: "-", date: txtDate.text, time: txtTime.text);
+                      Get.back();
+                    }, child: Text("SAVE & CLOSE",style: TextStyle(color: Colors.white)),),
+                  ),
+                ],
+              ),
+
+            ],
           ),
         ),
       ),

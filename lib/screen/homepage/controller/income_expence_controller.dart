@@ -4,25 +4,15 @@ import 'package:get/get.dart';
 class income_exepence_Controller extends GetxController {
   RxList<Map> readTransactionList = <Map>[].obs;
   RxList<Map> totalincome = <Map>[].obs;
+  RxString cateName=''.obs;
   RxList<Map> totalexpence = <Map>[].obs;
+  RxList<Map> cateList = <Map>[].obs;
   Rx<DateTime> current = DateTime.now().obs;
   Rx<DateTime> date=DateTime.now().obs;
   Rx<DateTime> Date=DateTime.now().obs;
   RxDouble totalAmount = 0.0.obs;
   RxDouble totalIncome = 0.0.obs;
   RxDouble totalExpense = 0.0.obs;
-  RxList<String> category=<String>[
-    "💲 Salary",
-    "🍴 Food",
-    "📱 Recharge",
-    "⛽ Category",
-    "🏠 Home Rent",
-    "🎓 Education",
-    "🍴 Glocery",
-    "🛍️ Shopping",
-    "🏥 Health Care",
-    "✈ Travel",
-  ].obs;
   DbHelper dbHelper = DbHelper();
 
   Future<void> readdata() async {
@@ -65,6 +55,12 @@ class income_exepence_Controller extends GetxController {
     totalAmount.value = 0;
 
     totalAmount.value = totalIncome.value - totalExpense.value;
+  }
+  Future<void> readDb2() async {
+    print("=========================================readcon");
+    cateList.value = await dbHelper.readDB2();
+    cateName.value=cateList[0]['category'];
+
   }
 
   void totalExpenseAmount() {
