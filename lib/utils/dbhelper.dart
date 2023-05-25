@@ -52,7 +52,7 @@ class DbHelper {
 
     print("================================read");
 
-    String query = "SELECT * FROM categry";
+    String query = "SELECT * FROM category";
     List<Map> l1 = await database!.rawQuery(query);
 
     print(l1);
@@ -81,6 +81,7 @@ class DbHelper {
 
   Future<void> insertcatagory({required category})
   async {
+
     database = await checkDB();
     database!.insert("category", {"category":category});
   }

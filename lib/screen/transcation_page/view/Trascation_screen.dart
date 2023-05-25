@@ -69,7 +69,7 @@ class _Transcation_screenState extends State<Transcation_screen> {
                           TextButton(
                             onPressed: () {
                               DbHelper dbHelper = DbHelper();
-                              var catagory;
+                              String catagory = txtaddc.text;
                               dbHelper.insertcatagory(category: catagory);
                               txtaddc.clear();
 
@@ -112,38 +112,35 @@ class _Transcation_screenState extends State<Transcation_screen> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.purpleAccent,width: 2),),
-                    hintText: "category",
-                    hintStyle: TextStyle(color: Colors.purple.shade100),
-                    border: OutlineInputBorder(),
-                  ),
-                  controller: txtCategory,
-                ),
-                // child: Obx(
-                //   () => DropdownButton(
-                //     isExpanded: true,
-                //     dropdownColor: Color(0xff1b1b1d),
-                //     value: controller.cateName.value,
-                //     items: controller.cateList
-                //         .map(
-                //           (e) => DropdownMenuItem(
-                //             value: "${e['category']}",
-                //             child: Text(
-                //               "  ${e['category']}",
-                //               style: TextStyle(color: Colors.white),
-                //             ),
-                //           ),
-                //         )
-                //         .toList(),
-                //     onChanged: (value) {
-                //       controller.cateName.value = value as String;
-                //
-                //       print(controller.cateName);
-                //     },
+                // child: TextField(
+                //   decoration: InputDecoration(
+                //     focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.purpleAccent,width: 2),),
+                //     hintText: "category",
+                //     hintStyle: TextStyle(color: Colors.purple.shade100),
+                //     border: OutlineInputBorder(),
                 //   ),
+                //   controller: txtCategory,
                 // ),
+                child: Obx(
+                  () => DropdownButton(
+                    isExpanded: true,
+                    dropdownColor: Color(0xff1b1b1d),
+                    value: controller.cateName.value,
+                    items: controller.cateList.map((e) => DropdownMenuItem(value: "${e['category']}",
+                        child: Text(
+                              "${e['category']}",
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (value) {
+                      controller.cateName.value = value as String;
+
+                      print(controller.cateName);
+                    },
+                  ),
+                ),
               ),
               SizedBox(height: 5,),
               Padding(
@@ -267,8 +264,9 @@ class _Transcation_screenState extends State<Transcation_screen> {
                     width: 170,
                     decoration: BoxDecoration(border: Border.all(color: Colors.black),color: Colors.deepPurple),
                     child: TextButton(onPressed: () {
+                      controller.stotalIncomeAmount();
                       DbHelper dbhelper = DbHelper();
-                      dbhelper.insertData(category: txtCategory.text, notes: txtNote.text, status: status, amount: txtAmount.text, types: "-", date: txtDate.text, time: txtTime.text);
+                      dbhelper.insertData(category: controller.cateName.value, notes: txtNote.text, status: status, amount: txtAmount.text, types: "-", date: txtDate.text, time: txtTime.text);
                       Get.back();
                     }, child: Text("SAVE & CLOSE",style: TextStyle(color: Colors.white)),),
                   ),

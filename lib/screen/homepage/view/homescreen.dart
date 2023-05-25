@@ -14,8 +14,8 @@ class _Home_screenState extends State<Home_screen> {
   @override
   void initState() {
    controller.totalBalance();
-   controller.totalIncomeAmount();
-   controller.totalExpenseAmount();
+   // controller.stotalIncomeAmount();
+   // controller.totalExpenseAmount();
     super.initState();
   }
   income_exepence_Controller controller = Get.put(income_exepence_Controller());
@@ -215,7 +215,7 @@ class _Home_screenState extends State<Home_screen> {
                                               ),
                                               child: Obx(
                                                 () => Text(
-                                                  "₹   ${controller.totalExpense}",
+                                                  "₹ ${controller.totalExpense}",
                                                   style: TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 22,
@@ -239,6 +239,7 @@ class _Home_screenState extends State<Home_screen> {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: TextButton(onPressed: () {
+                            controller.totalBalance();
                             Get.toNamed('/data');
                           }, child: Text("See Transcation",style: TextStyle(color: Colors.black,fontSize: 18)),),
                         ),
@@ -293,9 +294,10 @@ class _Home_screenState extends State<Home_screen> {
                                         ),
                                         IconButton(
                                           onPressed: () {
-                                            var id = controller
-                                                .readTransactionList[index]['id'];
+                                            var id = controller.readTransactionList[index]['id'];
                                             controller!.delete(id);
+                                            print("Done");
+                                            controller.stotalIncomeAmount;
                                           },
                                           icon: Icon(
                                             Icons.delete,

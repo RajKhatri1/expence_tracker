@@ -4,12 +4,18 @@ import 'package:get/get.dart';
 class income_exepence_Controller extends GetxController {
   RxList<Map> readTransactionList = <Map>[].obs;
   RxList<Map> totalincome = <Map>[].obs;
-  RxString cateName=''.obs;
+  RxString cateName = ''.obs;
   RxList<Map> totalexpence = <Map>[].obs;
   RxList<Map> cateList = <Map>[].obs;
-  Rx<DateTime> current = DateTime.now().obs;
-  Rx<DateTime> date=DateTime.now().obs;
-  Rx<DateTime> Date=DateTime.now().obs;
+  Rx<DateTime> current = DateTime
+      .now()
+      .obs;
+  Rx<DateTime> date = DateTime
+      .now()
+      .obs;
+  Rx<DateTime> Date = DateTime
+      .now()
+      .obs;
   RxDouble totalAmount = 0.0.obs;
   RxDouble totalIncome = 0.0.obs;
   RxDouble totalExpense = 0.0.obs;
@@ -35,15 +41,18 @@ class income_exepence_Controller extends GetxController {
     totalincome.value = await dbHelper.readIncome();
   }
 
-  void totalIncomeAmount() {
+  stotalIncomeAmount() {
     readOnlyIncome();
     totalIncome.value = 0;
-
-    for (int i = 0; i < totalincome.length; i++) {
-      String value = totalincome[i]['amount'];
-      int amount = int.parse(value);
-      totalIncome.value = totalIncome.value + amount;
-    }
+    Future.delayed(Duration(seconds: 2), () {
+      for (int i = 0; i < totalincome.length; i++) {
+        String value = totalincome[i]['amount'];
+        int amount = int.parse(value);
+        totalIncome.value = totalIncome.value + amount;
+      }
+      print("==========================================");
+      print(totalIncome);
+    },);
   }
 
   Future<void> readOnlyExpense() async {
@@ -52,28 +61,31 @@ class income_exepence_Controller extends GetxController {
 
   void totalBalance() {
     readdata();
-    totalAmount.value = 0;
-
-    totalAmount.value = totalIncome.value - totalExpense.value;
+    stotalIncomeAmount();
+    totalExpenseAmount();
+    Future.delayed(Duration(seconds: 2),() {
+      totalAmount.value = 0;
+      totalAmount.value = totalIncome.value - totalExpense.value;
+    },);
   }
+
   Future<void> readDb2() async {
     print("=========================================readcon");
     cateList.value = await dbHelper.readDB2();
-    cateName.value=cateList[0]['category'];
-
+    cateName.value = cateList[0]['category'];
   }
 
   void totalExpenseAmount() {
     readOnlyExpense();
     totalExpense.value = 0;
-
-    for (int i = 0; i < totalexpence.length; i++) {
-      String value = totalexpence[i]['amount'];
-      int amount = int.parse(value);
-      totalExpense.value = totalExpense.value + amount;
-    }
-
-    print(
-        "======================================================totalIncomeAmount");
+    Future.delayed(Duration(seconds: 2), () {
+      for (int i = 0; i < totalexpence.length; i++) {
+        String value = totalexpence[i]['amount'];
+        int amount = int.parse(value);
+        totalExpense.value = totalExpense.value + amount;
+      }
+      print("==========================================");
+      print(totalIncome);
+    },);
   }
 }
